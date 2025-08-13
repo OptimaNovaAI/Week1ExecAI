@@ -1,113 +1,713 @@
-<svg xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="1200" height="850" viewBox="0 0 1200 850">
-  <defs>
-    <style><![CDATA[
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-      .bg { fill: #0f172a; }
-      .title { font: 800 34px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #e2e8f0; }
-      .subtitle { font: 400 18px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #94a3b8; }
-      .tile { fill: #111827; stroke: #334155; stroke-width: 2; rx: 12; ry: 12; }
-      .tile:hover { fill: #1f2937; cursor: pointer; }
-      .tile-title { font: 600 18px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #e5e7eb; }
-      .footer { font: 400 14px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #94a3b8; }
-      .legend-dot { fill: #22d3ee; }
-      .connector { stroke: #1f2937; stroke-width: 2; }
-    ]]></style>
-  </defs>
+<!doctype html>
+<!--
+Executive AI Masterclass • Day 1 Dashboard (single-file)
+Author: Joe Paul / OptimaNova AI
+Built: August 13, 2025
 
-  <!-- Background -->
-  <rect class="bg" x="0" y="0" width="1200" height="850" />
+How to customize:
+1) Find LINK PLACEHOLDERS below and paste your real URLs and contact email.
+2) Optional: open the Admin panel on the page (gear icon or press E) to set links;
+   they will store to localStorage without editing this file.
+3) Host this file alone on GitHub Pages or your site at /day1/ or similar.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Executive AI Masterclass • Day 1 Dashboard</title>
+  <meta name="description" content="One hub for Week 1 recap, pilot instructions, prompt kit, ROI calculator, and resources.">
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #0b1224;
+      --text: #e5e7eb;
+      --subtext: #94a3b8;
+      --brand: #22d3ee;
+      --brand-2: #06b6d4;
+      --accent: #38bdf8;
+      --ok: #34d399;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --line: #334155;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+      --radius: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 20% -10%, #0b132a, var(--bg)) fixed;
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.45;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header.hero {
+      padding: 32px 24px 16px;
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 50;
+      background: linear-gradient(180deg, rgba(12,18,34,0.95), rgba(12,18,34,0.85) 80%, rgba(12,18,34,0));
+      backdrop-filter: saturate(1.2) blur(8px);
+    }
+    .hero h1 { margin: 0 0 6px; font-weight: 800; font-size: 28px; letter-spacing: .2px; }
+    .hero p { margin: 2px 0; color: var(--subtext); }
+    .cta { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .btn {
+      background: linear-gradient(180deg, var(--brand), var(--brand-2));
+      color: #081018; padding: 10px 14px; border-radius: 10px;
+      border: 0; font-weight: 700; cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .btn.secondary {
+      background: #1f2937; color: var(--text);
+      border: 1px solid var(--line); box-shadow: none;
+    }
+    .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px 20px 80px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+    @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: linear-gradient(180deg, #0e1428, var(--panel));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      min-height: 120px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .card h3 { margin: 0; font-size: 18px; }
+    .card p.small { color: var(--subtext); margin: 0; font-size: 14px; }
+    .card .actions { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--subtext); }
+    .kicker { font-size: 12px; color: var(--subtext); text-transform: uppercase; letter-spacing: .12em; }
+    .divider { height: 1px; background: var(--line); margin: 24px 0; }
+    .section-title { font-size: 22px; font-weight: 800; margin: 6px 0 6px; }
+    .section-sub { color: var(--subtext); margin: 0 0 14px; }
+    .mono { font-family: var(--mono); }
+    .tooltip { position: relative; }
+    .tooltip:hover .tip {
+      opacity: 1; transform: translateY(0); pointer-events: auto;
+    }
+    .tip {
+      position: absolute; inset: auto auto calc(100% + 8px) 0;
+      background: #0b1022; border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px 12px; width: 300px; box-shadow: var(--shadow);
+      color: var(--subtext); font-size: 13px; opacity: 0;
+      transform: translateY(6px); transition: all .18s ease;
+      pointer-events: none; z-index: 10;
+    }
 
-  <!-- Header -->
-  <text class="title" x="60" y="80">Executive AI Masterclass • Day 1 Dashboard</text>
-  <text class="subtitle" x="60" y="114">Click any tile to open the resource. Replace placeholder links before sending to participants.</text>
-  <circle class="legend-dot" cx="60" cy="150" r="5" />
-  <text class="subtitle" x="74" y="156">Built August 13, 2025</text>
-<line class="connector" x1="40" y1="255.0" x2="60" y2="255.0" /><line class="connector" x1="380" y1="255.0" x2="400" y2="255.0" /><line class="connector" x1="420" y1="255.0" x2="440" y2="255.0" /><line class="connector" x1="760" y1="255.0" x2="780" y2="255.0" /><line class="connector" x1="800" y1="255.0" x2="820" y2="255.0" /><line class="connector" x1="1140" y1="255.0" x2="1160" y2="255.0" /><line class="connector" x1="40" y1="405.0" x2="60" y2="405.0" /><line class="connector" x1="380" y1="405.0" x2="400" y2="405.0" /><line class="connector" x1="420" y1="405.0" x2="440" y2="405.0" /><line class="connector" x1="760" y1="405.0" x2="780" y2="405.0" /><line class="connector" x1="800" y1="405.0" x2="820" y2="405.0" /><line class="connector" x1="1140" y1="405.0" x2="1160" y2="405.0" /><line class="connector" x1="40" y1="555.0" x2="60" y2="555.0" /><line class="connector" x1="380" y1="555.0" x2="400" y2="555.0" /><line class="connector" x1="420" y1="555.0" x2="440" y2="555.0" /><line class="connector" x1="760" y1="555.0" x2="780" y2="555.0" /><line class="connector" x1="800" y1="555.0" x2="820" y2="555.0" /><line class="connector" x1="1140" y1="555.0" x2="1160" y2="555.0" /><line class="connector" x1="40" y1="705.0" x2="60" y2="705.0" /><line class="connector" x1="380" y1="705.0" x2="400" y2="705.0" /><line class="connector" x1="420" y1="705.0" x2="440" y2="705.0" /><line class="connector" x1="760" y1="705.0" x2="780" y2="705.0" /><line class="connector" x1="800" y1="705.0" x2="820" y2="705.0" /><line class="connector" x1="1140" y1="705.0" x2="1160" y2="705.0" />
-    <a xlink:href="https://REPLACE_WITH_WEEK1_RECAP_URL" target="_blank">
-      <g>
-        <rect class="tile" x="60" y="200" width="320" height="110" />
-        <text class="tile-title" x="78" y="240">Week 1 Recap</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_PILOT_INSTRUCTIONS_URL" target="_blank">
-      <g>
-        <rect class="tile" x="440" y="200" width="320" height="110" />
-        <text class="tile-title" x="458" y="240">One-Week Pilot Instructions</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_PILOT_FORM_URL" target="_blank">
-      <g>
-        <rect class="tile" x="820" y="200" width="320" height="110" />
-        <text class="tile-title" x="838" y="240">Pilot Submission Form</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_PROMPT_KIT_URL" target="_blank">
-      <g>
-        <rect class="tile" x="60" y="350" width="320" height="110" />
-        <text class="tile-title" x="78" y="390">Prompt Kit</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_ROI_CALCULATOR_URL" target="_blank">
-      <g>
-        <rect class="tile" x="440" y="350" width="320" height="110" />
-        <text class="tile-title" x="458" y="390">ROI Calculator</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_LEVELS_OF_AI_URL" target="_blank">
-      <g>
-        <rect class="tile" x="820" y="350" width="320" height="110" />
-        <text class="tile-title" x="838" y="390">Levels of AI Interactive</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_MODEL_GUIDE_URL" target="_blank">
-      <g>
-        <rect class="tile" x="60" y="500" width="320" height="110" />
-        <text class="tile-title" x="78" y="540">Model Guide: GPT, Claude, Gemini</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_OMB_M24_10_GUIDE_URL" target="_blank">
-      <g>
-        <rect class="tile" x="440" y="500" width="320" height="110" />
-        <text class="tile-title" x="458" y="540">Ethics Guide: OMB M-24-10</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_DEEP_RESEARCH_URL" target="_blank">
-      <g>
-        <rect class="tile" x="820" y="500" width="320" height="110" />
-        <text class="tile-title" x="838" y="540">Deep Research + Web Search How-To</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_OFFICE_HOURS_URL" target="_blank">
-      <g>
-        <rect class="tile" x="60" y="650" width="320" height="110" />
-        <text class="tile-title" x="78" y="690">Office Hours Booking</text>
-      </g>
-    </a>
-    
-    <a xlink:href="mailto:REPLACE_WITH_HELP_EMAIL" target="_blank">
-      <g>
-        <rect class="tile" x="440" y="650" width="320" height="110" />
-        <text class="tile-title" x="458" y="690">Help Desk Email</text>
-      </g>
-    </a>
-    
-    <a xlink:href="https://REPLACE_WITH_OPTIMANOVA_SITE_URL" target="_blank">
-      <g>
-        <rect class="tile" x="820" y="650" width="320" height="110" />
-        <text class="tile-title" x="838" y="690">OptimaNova AI Site</text>
-      </g>
-    </a>
-    
-  <text class="footer" x="60" y="820">Tip: keep this SVG as your single-page hub. Host on GitHub Pages or your site. Update links in a text editor.</text>
-</svg>
+    /* ROI */
+    .roi { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .roi { grid-template-columns: 1fr; } }
+    .field { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin: 8px 0; }
+    .field label { color: var(--subtext); font-size: 13px; }
+    .field input { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #0c1328; color: var(--text); }
+    .results { background: #0a1124; border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+    .results h4 { margin: 0 0 8px; }
+    .stat { display: grid; grid-template-columns: 1fr auto; margin: 6px 0; }
+    .stat b { font-family: var(--mono); }
+
+    /* Prompt kit */
+    .prompt { background: #0a1124; border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin: 10px 0; }
+    pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--mono); font-size: 13px; color: #dbeafe; }
+    .copy { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: #13203e; color: var(--text); cursor: pointer; font-weight: 600; }
+    .copy.done { background: #153422; border-color: #116437; }
+
+    /* Levels of AI */
+    .levels { display: grid; grid-template-columns: 240px 1fr; gap: 18px; }
+    @media (max-width: 900px) { .levels { grid-template-columns: 1fr; } }
+    .stepper { display: flex; flex-direction: column; gap: 10px; }
+    .step { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; background: #0b1327; }
+    .step.active { outline: 2px solid var(--brand); background: #0e1a36; }
+    .panel { background: #0a1124; border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 160px; }
+
+    /* Details accordion */
+    details { background: #0a1124; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+    details > summary { cursor: pointer; font-weight: 700; }
+    details[open] { background: #0d1630; }
+
+    /* Pilot logger */
+    .pilot { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    textarea { width: 100%; min-height: 120px; padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: #0c1328; color: var(--text); }
+
+    /* Admin panel */
+    .admin-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 70; }
+    .gear { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #10172b; color: var(--text); cursor: pointer; }
+    .admin { position: fixed; right: 16px; bottom: 76px; width: 340px; background: #0b1022; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px; display: none; z-index: 70; }
+    .admin h4 { margin: 4px 0 8px; }
+    .admin .row { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 6px 0; }
+    .admin input[type="text"], .admin input[type="email"] { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: #0c1328; color: var(--text); }
+    .notice { color: var(--subtext); font-size: 12px; }
+
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--subtext); }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="kicker">OptimaNova AI</div>
+      <h1>Executive AI Masterclass • Day 1 Dashboard</h1>
+      <p>One link for everything we promised. Built August 13, 2025. Save this page and share the single URL.</p>
+      <div class="cta">
+        <a class="btn" href="#resources">Open resources</a>
+        <a class="btn secondary" href="#roi">ROI calculator</a>
+        <a class="btn secondary" href="#promptkit">Prompt kit</a>
+        <a class="btn ghost" href="#pilot">Submit pilot</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <!-- Resources grid -->
+    <section id="resources">
+      <div class="section-title">Resources</div>
+      <p class="section-sub">Click a tile to open. Admins can set live links with the gear button or by editing placeholders in this file.</p>
+
+      <div class="grid" role="list">
+        <!-- Each card uses data-link-key which the Admin panel can set at runtime -->
+        <article class="card" role="listitem">
+          <div class="pill">Recap</div>
+          <h3>Week 1 Recap & Slides</h3>
+          <p class="small">Highlights, demos, and key numbers. Perfect for forwarding to your team.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="recap" href="#"
+               rel="noopener" target="_blank">Open</a>
+            <a class="btn secondary" href="#levels">See levels</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Pilot</div>
+          <h3>One‑Week Pilot Instructions</h3>
+          <p class="small">Pick one painful process. Measure baseline. Automate and report a first win.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="pilotInstructions" href="#"
+               rel="noopener" target="_blank">Open</a>
+            <a class="btn secondary" href="#pilot">Log your pilot</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Pilot</div>
+          <h3>Pilot Submission Form</h3>
+          <p class="small">Share your pilot choice and baseline metrics before Day 2.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="pilotForm" href="#"
+               rel="noopener" target="_blank">Open form</a>
+            <button class="btn secondary" id="copyPilotSummaryBtn" type="button">Copy my summary</button>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Prompts</div>
+          <h3>Prompt Kit</h3>
+          <p class="small">Copy‑paste prompts that work out of the box. Includes role, tone, and outputs.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="promptKit" href="#"
+               rel="noopener" target="_blank">Open</a>
+            <a class="btn secondary" href="#promptkit">Preview below</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Value</div>
+          <h3>ROI Calculator</h3>
+          <p class="small">Estimate time saved and dollars gained. Save or copy results to share.</p>
+          <div class="actions">
+            <a class="btn" href="#roi">Open calculator</a>
+            <a class="btn secondary" data-link-key="roiCalc" href="#">External version</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Interactive</div>
+          <h3>Levels of AI</h3>
+          <p class="small">Five levels from individual use to agents and data products.</p>
+          <div class="actions">
+            <a class="btn" href="#levels">Open levels</a>
+            <a class="btn secondary" data-link-key="levelsAI" href="#">External visual</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Models</div>
+          <h3>Model Guide: GPT, Claude, Gemini</h3>
+          <p class="small">Which model when, and how to ask for thinking time.</p>
+          <div class="actions">
+            <a class="btn" href="#models">Open guide</a>
+            <a class="btn secondary" data-link-key="modelGuide" href="#">External version</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Ethics</div>
+          <h3>Ethics & Risk Quick Guide</h3>
+          <p class="small">Align to responsible use and OMB‑style expectations.</p>
+          <div class="actions">
+            <a class="btn" href="#ethics">Open guide</a>
+            <a class="btn secondary" data-link-key="ethicsGuide" href="#">External version</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Research</div>
+          <h3>Deep Research & Web Search</h3>
+          <p class="small">How to cite, request assumptions, and avoid hallucinations.</p>
+          <div class="actions">
+            <a class="btn" href="#research">Open how‑to</a>
+            <a class="btn secondary" data-link-key="deepResearch" href="#">External version</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Support</div>
+          <h3>Office Hours</h3>
+          <p class="small">Book time to troubleshoot your pilot or refine prompts.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="officeHours" href="#" rel="noopener" target="_blank">Book</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">Support</div>
+          <h3>Help Desk</h3>
+          <p class="small">Email the team. Include screenshots and your pilot summary.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="helpEmail" href="mailto:help@example.com">Email us</a>
+          </div>
+        </article>
+
+        <article class="card" role="listitem">
+          <div class="pill">OptimaNova</div>
+          <h3>OptimaNova AI</h3>
+          <p class="small">What we build, who we serve, and ways to work together.</p>
+          <div class="actions">
+            <a class="btn" data-link-key="siteUrl" href="#" rel="noopener" target="_blank">Visit site</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ROI CALCULATOR -->
+    <section id="roi" aria-labelledby="roi-title">
+      <div class="section-title" id="roi-title">ROI calculator</div>
+      <p class="section-sub">Enter three numbers. The calculator shows weekly and annual savings. Values persist in your browser.</p>
+
+      <div class="roi">
+        <div class="card">
+          <div class="field"><label for="teamSize">Team size</label><input id="teamSize" type="number" min="1" step="1" value="10"></div>
+          <div class="field"><label for="hoursPerPerson">Hours saved per person per week</label><input id="hoursPerPerson" type="number" min="0" step="0.5" value="5"></div>
+          <div class="field"><label for="loadedRate">Loaded hourly rate in dollars</label><input id="loadedRate" type="number" min="0" step="1" value="60"></div>
+          <div class="field"><label for="toolCost">AI tool cost per user per month</label><input id="toolCost" type="number" min="0" step="1" value="30"></div>
+          <div class="actions"><button class="btn" id="copyRoi">Copy results</button><button class="btn secondary" id="resetRoi">Reset</button></div>
+        </div>
+        <div class="results">
+          <h4>Results</h4>
+          <div class="stat"><span>Weekly hours saved</span><b id="weeklyHours">—</b></div>
+          <div class="stat"><span>Weekly savings</span><b id="weeklySavings">—</b></div>
+          <div class="stat"><span>Annual hours saved</span><b id="annualHours">—</b></div>
+          <div class="stat"><span>Annual savings</span><b id="annualSavings">—</b></div>
+          <div class="stat"><span>Annual tool cost</span><b id="annualCost">—</b></div>
+          <div class="stat"><span>ROI multiple</span><b id="roiMultiple">—</b></div>
+          <p class="small">Assumes 52 weeks. ROI multiple is annual savings divided by annual tool cost.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PROMPT KIT -->
+    <section id="promptkit" aria-labelledby="prompt-title">
+      <div class="section-title" id="prompt-title">Prompt kit</div>
+      <p class="section-sub">Copy these into your model of choice. Tell it to think before answering when accuracy matters.</p>
+
+      <div class="prompt">
+        <div class="kicker">Level up</div>
+        <pre id="p1">Based on my role as [TITLE] at [ORG], list everything you can do this week to help me level up with AI. Include automation ideas, at least five prompts, a one-week plan, and quick wins I can ship in under 60 minutes. Ask for missing context only after you propose a complete first pass.</pre>
+        <div style="margin-top:8px"><button class="copy" data-copy="#p1">Copy</button></div>
+      </div>
+
+      <div class="prompt">
+        <div class="kicker">Pilot builder</div>
+        <pre id="p2">You are my AI implementation coach. I need a one-week pilot. Recommend three candidate processes I can automate based on my role, rank them by time saved, risk, and visibility. For the top choice, give a step-by-step workflow, a test plan, success metrics, and a change-management note I can send to my team.</pre>
+        <div style="margin-top:8px"><button class="copy" data-copy="#p2">Copy</button></div>
+      </div>
+
+      <div class="prompt">
+        <div class="kicker">Delegate outcomes</div>
+        <pre id="p3">You should know my context from this thread. Produce the full output. If details are missing, state assumptions and proceed. After delivering, list the questions you still need answered and a faster version I can reuse.</pre>
+        <div style="margin-top:8px"><button class="copy" data-copy="#p3">Copy</button></div>
+      </div>
+
+      <div class="prompt">
+        <div class="kicker">Deep research</div>
+        <pre id="p4">Act as a research librarian. Use web search. Cite sources with working links. Summarize the consensus, highlight disagreements, and call out freshness issues. End with a short action list and your confidence rating.</pre>
+        <div style="margin-top:8px"><button class="copy" data-copy="#p4">Copy</button></div>
+      </div>
+
+      <div class="prompt">
+        <div class="kicker">Post-mortem</div>
+        <pre id="p5">Turn this failed attempt into learning. Identify what went wrong, the smallest fix to try next, and a safer baseline I can fall back to. Create a checklist that prevents this in the future.</pre>
+        <div style="margin-top:8px"><button class="copy" data-copy="#p5">Copy</button></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- LEVELS OF AI -->
+    <section id="levels" aria-labelledby="levels-title">
+      <div class="section-title" id="levels-title">Levels of AI</div>
+      <p class="section-sub">Five levels. Climb at your pace. The goal is reliable value, not novelty.</p>
+      <div class="levels">
+        <div class="stepper" id="stepper">
+          <div class="step active" data-step="1"><b>Level 1</b> Personal productivity</div>
+          <div class="step" data-step="2"><b>Level 2</b> Team templates</div>
+          <div class="step" data-step="3"><b>Level 3</b> Workflow automation</div>
+          <div class="step" data-step="4"><b>Level 4</b> Data + agents</div>
+          <div class="step" data-step="5"><b>Level 5</b> AI products</div>
+        </div>
+        <div class="panel" id="levelContent">
+          <h4>Level 1: Personal productivity</h4>
+          <ul>
+            <li>Email drafting and tone changes; meeting notes and summaries.</li>
+            <li>Research synthesis with citations; brainstorming and first drafts.</li>
+            <li>Prompts: “Rewrite for brevity and clarity.” “Summarize with next actions.”</li>
+          </ul>
+          <p class="small">Exit when: you save 3–5 hours a week consistently.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- MODEL GUIDE -->
+    <section id="models" aria-labelledby="models-title">
+      <div class="section-title" id="models-title">Model guide</div>
+      <p class="section-sub">Pick the right tool, then give it room to think for hard tasks.</p>
+
+      <details>
+        <summary>GPT</summary>
+        <ul>
+          <li>Strong general performance; good at structured outputs and tool use.</li>
+          <li>Great for writing, planning, analysis, and building small web outputs.</li>
+          <li>Tip: ask it to “think step by step; verify assumptions; then propose two options.”</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Claude</summary>
+        <ul>
+          <li>Excellent with long documents and careful reasoning.</li>
+          <li>Useful for policy analysis, summaries, and reflective writing.</li>
+          <li>Tip: ask for “deliberate mode” style thinking and evidence checks.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Gemini</summary>
+        <ul>
+          <li>Useful when tying outputs closely to Google ecosystem and search.</li>
+          <li>Good for web context mashups and quick lookups.</li>
+          <li>Tip: request link lists with one‑sentence annotations and a bias to recency.</li>
+        </ul>
+      </details>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- RESEARCH HOW-TO -->
+    <section id="research" aria-labelledby="research-title">
+      <div class="section-title" id="research-title">Deep research and web search</div>
+      <p class="section-sub">Use web search when facts can change. Ask for citations, diversity of sources, and limits.</p>
+      <ol>
+        <li>State the goal, audience, and time window. Example: “US policy changes since Jan 2024.”</li>
+        <li>Require citations with working links and a freshness note for each claim.</li>
+        <li>Ask for consensus, disagreements, and the model’s confidence.</li>
+        <li>Request a short action list and a one‑paragraph executive POV you can paste to leadership.</li>
+      </ol>
+      <p class="small">Guardrail: treat outputs as drafts until verified. Challenge anything that looks too neat.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ETHICS -->
+    <section id="ethics" aria-labelledby="ethics-title">
+      <div class="section-title" id="ethics-title">Ethics and risk quick guide</div>
+      <p class="section-sub">Keep humans in the loop. Document assumptions. Respect data sensitivity.</p>
+      <ul>
+        <li>Use approved data sources. Do not paste sensitive data into public tools.</li>
+        <li>Track who reviewed the output and what changed. Keep a short audit trail.</li>
+        <li>Prefer explainable steps over opaque magic when stakes are high.</li>
+        <li>Accessibility and bias checks are part of “done.”</li>
+        <li>For public facts, cite sources and note recency limits.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PILOT LOGGER -->
+    <section id="pilot" aria-labelledby="pilot-title">
+      <div class="section-title" id="pilot-title">Log your pilot</div>
+      <p class="section-sub">Record baseline and early results. Your notes persist in your browser. Copy summary, then submit the form.</p>
+
+      <div class="card pilot">
+        <label>Process to automate
+          <input id="pilotName" type="text" placeholder="Example: monthly board report assembly">
+        </label>
+        <label>Baseline: minutes per instance and weekly frequency
+          <input id="baseline" type="text" placeholder="Example: 90 minutes per report, 4 reports per week">
+        </label>
+        <label>First‑week approach
+          <textarea id="approach" placeholder="Workflow, prompts, tools, who reviews what"></textarea>
+        </label>
+        <label>Early results
+          <textarea id="results" placeholder="Time saved, quality changes, issues"></textarea>
+        </label>
+        <div class="actions">
+          <button class="btn" id="copyPilot">Copy pilot summary</button>
+          <a class="btn secondary" data-link-key="pilotForm" href="#" target="_blank" rel="noopener">Open submission form</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Questions or stuck on a prompt? <a data-link-key="helpEmail" href="mailto:help@example.com">Email the help desk</a> or <a data-link-key="officeHours" href="#" target="_blank" rel="noopener">book office hours</a>.</p>
+      <p class="small">This dashboard stores only local notes in your browser. Clear them with your browser tools.</p>
+    </footer>
+  </main>
+
+  <!-- Admin gear -->
+  <div class="admin-toggle">
+    <button class="gear" id="gear" title="Admin: edit links">⚙</button>
+  </div>
+  <div class="admin" id="adminPanel" aria-live="polite">
+    <h4>Admin links</h4>
+    <p class="notice">Set live URLs. Saved to this browser only. Press E to toggle this panel.</p>
+    <div class="row"><label>Week 1 Recap URL <input type="text" data-admin="recap" placeholder="https://..."></label></div>
+    <div class="row"><label>Pilot Instructions URL <input type="text" data-admin="pilotInstructions" placeholder="https://..."></label></div>
+    <div class="row"><label>Pilot Form URL <input type="text" data-admin="pilotForm" placeholder="https://..."></label></div>
+    <div class="row"><label>Prompt Kit URL <input type="text" data-admin="promptKit" placeholder="https://..."></label></div>
+    <div class="row"><label>External ROI URL <input type="text" data-admin="roiCalc" placeholder="https://..."></label></div>
+    <div class="row"><label>Levels of AI URL <input type="text" data-admin="levelsAI" placeholder="https://..."></label></div>
+    <div class="row"><label>Model Guide URL <input type="text" data-admin="modelGuide" placeholder="https://..."></label></div>
+    <div class="row"><label>Ethics Guide URL <input type="text" data-admin="ethicsGuide" placeholder="https://..."></label></div>
+    <div class="row"><label>Deep Research URL <input type="text" data-admin="deepResearch" placeholder="https://..."></label></div>
+    <div class="row"><label>Office Hours URL <input type="text" data-admin="officeHours" placeholder="https://..."></label></div>
+    <div class="row"><label>Help Desk Email <input type="email" data-admin="helpEmail" placeholder="help@optimanova.ai"></label></div>
+    <div class="row"><label>OptimaNova Site <input type="text" data-admin="siteUrl" placeholder="https://optimanova.ai"></label></div>
+    <div class="actions" style="margin-top:8px; display:flex; gap:8px;">
+      <button class="btn" id="saveAdmin">Save links</button>
+      <button class="btn secondary" id="resetAdmin">Reset links</button>
+    </div>
+  </div>
+
+  <script>
+    // ----- Admin link management -----
+    const defaultLinks = {
+      recap: "#", pilotInstructions: "#", pilotForm: "#", promptKit: "#",
+      roiCalc: "#", levelsAI: "#", modelGuide: "#", ethicsGuide: "#",
+      deepResearch: "#", officeHours: "#", helpEmail: "mailto:help@example.com", siteUrl: "#"
+    };
+
+    function loadLinks() {
+      try {
+        const saved = JSON.parse(localStorage.getItem("execai_links") || "null");
+        return saved && typeof saved === "object" ? {...defaultLinks, ...saved} : {...defaultLinks};
+      } catch (e) { return {...defaultLinks}; }
+    }
+
+    function applyLinks(map) {
+      document.querySelectorAll("[data-link-key]").forEach(a => {
+        const key = a.getAttribute("data-link-key");
+        if (map[key]) a.setAttribute("href", map[key]);
+      });
+    }
+
+    function populateAdmin(map) {
+      document.querySelectorAll("[data-admin]").forEach(inp => {
+        const key = inp.getAttribute("data-admin");
+        inp.value = map[key] || "";
+      });
+    }
+
+    const links = loadLinks();
+    applyLinks(links);
+
+    // Toggle admin panel
+    const panel = document.getElementById("adminPanel");
+    const gear = document.getElementById("gear");
+    gear.addEventListener("click", () => panel.style.display = panel.style.display === "block" ? "none" : "block");
+    document.addEventListener("keydown", e => { if ((e.key === "e" || e.key === "E") && !e.metaKey && !e.ctrlKey) gear.click(); });
+
+    populateAdmin(links);
+
+    document.getElementById("saveAdmin").addEventListener("click", () => {
+      const newMap = {};
+      document.querySelectorAll("[data-admin]").forEach(inp => newMap[inp.getAttribute("data-admin")] = inp.value.trim());
+      localStorage.setItem("execai_links", JSON.stringify(newMap));
+      applyLinks(newMap);
+      panel.style.display = "none";
+      alert("Links saved for this browser.");
+    });
+    document.getElementById("resetAdmin").addEventListener("click", () => {
+      localStorage.removeItem("execai_links");
+      applyLinks(defaultLinks);
+      populateAdmin(defaultLinks);
+      alert("Links reset to placeholders.");
+    });
+
+    // ----- ROI calculator -----
+    const teamSizeEl = document.getElementById("teamSize");
+    const hoursPerEl = document.getElementById("hoursPerPerson");
+    const rateEl = document.getElementById("loadedRate");
+    const costEl = document.getElementById("toolCost");
+
+    const fmt = n => isFinite(n) ? n.toLocaleString(undefined, {maximumFractionDigits: 2}) : "—";
+
+    function calc() {
+      const team = Math.max(0, Number(teamSizeEl.value));
+      const hrs = Math.max(0, Number(hoursPerEl.value));
+      const rate = Math.max(0, Number(rateEl.value));
+      const cost = Math.max(0, Number(costEl.value));
+
+      const weeklyHours = team * hrs;
+      const weeklySavings = weeklyHours * rate;
+      const annualHours = weeklyHours * 52;
+      const annualSavings = weeklySavings * 52;
+      const annualCost = team * cost * 12;
+      const roiMultiple = annualCost > 0 ? annualSavings / annualCost : 0;
+
+      document.getElementById("weeklyHours").textContent = fmt(weeklyHours) + " hrs";
+      document.getElementById("weeklySavings").textContent = "$" + fmt(weeklySavings);
+      document.getElementById("annualHours").textContent = fmt(annualHours) + " hrs";
+      document.getElementById("annualSavings").textContent = "$" + fmt(annualSavings);
+      document.getElementById("annualCost").textContent = "$" + fmt(annualCost);
+      document.getElementById("roiMultiple").textContent = roiMultiple ? fmt(roiMultiple) + "×" : "—";
+
+      // Persist inputs
+      localStorage.setItem("execai_roi", JSON.stringify({team, hrs, rate, cost}));
+    }
+
+    [teamSizeEl, hoursPerEl, rateEl, costEl].forEach(el => el.addEventListener("input", calc));
+
+    // Load saved ROI inputs
+    try {
+      const raw = JSON.parse(localStorage.getItem("execai_roi") || "null");
+      if (raw) {
+        teamSizeEl.value = raw.team ?? teamSizeEl.value;
+        hoursPerEl.value = raw.hrs ?? hoursPerEl.value;
+        rateEl.value = raw.rate ?? rateEl.value;
+        costEl.value = raw.cost ?? costEl.value;
+      }
+    } catch (e) { /* noop */ }
+    calc();
+
+    document.getElementById("copyRoi").addEventListener("click", () => {
+      const text = `ROI Summary\nTeam: ${teamSizeEl.value}\nHours saved per person per week: ${hoursPerEl.value}\nLoaded rate: ${rateEl.value}\nTool cost: ${costEl.value}/user/mo\nWeekly hours: ${document.getElementById("weeklyHours").textContent}\nWeekly savings: ${document.getElementById("weeklySavings").textContent}\nAnnual hours: ${document.getElementById("annualHours").textContent}\nAnnual savings: ${document.getElementById("annualSavings").textContent}\nAnnual tool cost: ${document.getElementById("annualCost").textContent}\nROI multiple: ${document.getElementById("roiMultiple").textContent}`;
+      navigator.clipboard.writeText(text);
+    });
+    document.getElementById("resetRoi").addEventListener("click", () => {
+      localStorage.removeItem("execai_roi");
+      teamSizeEl.value = 10; hoursPerEl.value = 5; rateEl.value = 60; costEl.value = 30;
+      calc();
+    });
+
+    // ----- Prompt kit copy buttons -----
+    document.querySelectorAll(".copy").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const sel = btn.getAttribute("data-copy");
+        const el = document.querySelector(sel);
+        if (!el) return;
+        navigator.clipboard.writeText(el.textContent.trim());
+        btn.classList.add("done");
+        btn.textContent = "Copied";
+        setTimeout(() => { btn.classList.remove("done"); btn.textContent = "Copy"; }, 1200);
+      });
+    });
+
+    // ----- Levels of AI interactive panel -----
+    const levels = {
+      1: `<h4>Level 1: Personal productivity</h4>
+          <ul>
+            <li>Email drafting and tone changes; meeting notes and summaries.</li>
+            <li>Research synthesis with citations; brainstorming and first drafts.</li>
+            <li>Prompts: “Rewrite for brevity and clarity.” “Summarize with next actions.”</li>
+          </ul>
+          <p class="small">Exit when: you save 3–5 hours a week consistently.</p>`,
+      2: `<h4>Level 2: Team templates</h4>
+          <ul>
+            <li>Shared prompt packs for recurring work; role‑based checklists.</li>
+            <li>Standardized briefs, proposals, reports, and QA passes.</li>
+            <li>Prompts: “Use the team template v3 and deliver the draft with a QA list.”</li>
+          </ul>
+          <p class="small">Exit when: a teammate can get 80% quality without you.</p>`,
+      3: `<h4>Level 3: Workflow automation</h4>
+          <ul>
+            <li>Link tools and reduce manual steps; approvals stay human.</li>
+            <li>Examples: intake to draft to review; research to summary to deck.</li>
+            <li>Prompts: “Produce JSON outputs for system X; include validation rules.”</li>
+          </ul>
+          <p class="small">Exit when: cycle time drops by 30% on a core process.</p>`,
+      4: `<h4>Level 4: Data + agents</h4>
+          <ul>
+            <li>Use your data; specialize assistants by job family.</li>
+            <li>Add retrieval for policies, playbooks, and client facts.</li>
+            <li>Prompts: “Cite from our corpus; show source snippets in‑line.”</li>
+          </ul>
+          <p class="small">Exit when: assistants pass a shadow‑to‑live handoff.</p>`,
+      5: `<h4>Level 5: AI products</h4>
+          <ul>
+            <li>External‑facing tools; measurable revenue or impact.</li>
+            <li>Telemetry and feedback loops; governance by design.</li>
+            <li>Prompts: “Propose v1 with scope, risks, and analytics to track.”</li>
+          </ul>
+          <p class="small">Exit when: the product meets a clear KPI and pays for itself.</p>`
+    };
+    document.querySelectorAll(".step").forEach(el => el.addEventListener("click", () => {
+      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+      el.classList.add("active");
+      const n = el.getAttribute("data-step");
+      document.getElementById("levelContent").innerHTML = levels[n] || "";
+    }));
+
+    // ----- Pilot logger -----
+    const fields = ["pilotName", "baseline", "approach", "results"];
+    function savePilot() {
+      const data = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value]));
+      localStorage.setItem("execai_pilot", JSON.stringify(data));
+    }
+    function loadPilot() {
+      try {
+        const data = JSON.parse(localStorage.getItem("execai_pilot") || "null");
+        if (!data) return;
+        fields.forEach(id => { if (data[id]) document.getElementById(id).value = data[id]; });
+      } catch (e) { /* noop */ }
+    }
+    fields.forEach(id => document.getElementById(id).addEventListener("input", savePilot));
+    loadPilot();
+
+    function pilotSummary() {
+      const v = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value.trim()]));
+      return `Pilot Summary\nProcess: ${v.pilotName || "—"}\nBaseline: ${v.baseline || "—"}\nApproach: ${v.approach || "—"}\nEarly results: ${v.results || "—"}`;
+    }
+    document.getElementById("copyPilot").addEventListener("click", () => navigator.clipboard.writeText(pilotSummary()));
+    const copyPilotSummaryBtn = document.getElementById("copyPilotSummaryBtn");
+    if (copyPilotSummaryBtn) copyPilotSummaryBtn.addEventListener("click", () => navigator.clipboard.writeText(pilotSummary()));
+  </script>
+</body>
+</html>
