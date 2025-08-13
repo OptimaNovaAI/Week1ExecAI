@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1200" height="850" viewBox="0 0 1200 850">
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+      .bg { fill: #0f172a; }
+      .title { font: 800 34px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #e2e8f0; }
+      .subtitle { font: 400 18px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #94a3b8; }
+      .tile { fill: #111827; stroke: #334155; stroke-width: 2; rx: 12; ry: 12; }
+      .tile:hover { fill: #1f2937; cursor: pointer; }
+      .tile-title { font: 600 18px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #e5e7eb; }
+      .footer { font: 400 14px Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; fill: #94a3b8; }
+      .legend-dot { fill: #22d3ee; }
+      .connector { stroke: #1f2937; stroke-width: 2; }
+    ]]></style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1200" height="850" />
+
+  <!-- Header -->
+  <text class="title" x="60" y="80">Executive AI Masterclass • Day 1 Dashboard</text>
+  <text class="subtitle" x="60" y="114">Click any tile to open the resource. Replace placeholder links before sending to participants.</text>
+  <circle class="legend-dot" cx="60" cy="150" r="5" />
+  <text class="subtitle" x="74" y="156">Built August 13, 2025</text>
+<line class="connector" x1="40" y1="255.0" x2="60" y2="255.0" /><line class="connector" x1="380" y1="255.0" x2="400" y2="255.0" /><line class="connector" x1="420" y1="255.0" x2="440" y2="255.0" /><line class="connector" x1="760" y1="255.0" x2="780" y2="255.0" /><line class="connector" x1="800" y1="255.0" x2="820" y2="255.0" /><line class="connector" x1="1140" y1="255.0" x2="1160" y2="255.0" /><line class="connector" x1="40" y1="405.0" x2="60" y2="405.0" /><line class="connector" x1="380" y1="405.0" x2="400" y2="405.0" /><line class="connector" x1="420" y1="405.0" x2="440" y2="405.0" /><line class="connector" x1="760" y1="405.0" x2="780" y2="405.0" /><line class="connector" x1="800" y1="405.0" x2="820" y2="405.0" /><line class="connector" x1="1140" y1="405.0" x2="1160" y2="405.0" /><line class="connector" x1="40" y1="555.0" x2="60" y2="555.0" /><line class="connector" x1="380" y1="555.0" x2="400" y2="555.0" /><line class="connector" x1="420" y1="555.0" x2="440" y2="555.0" /><line class="connector" x1="760" y1="555.0" x2="780" y2="555.0" /><line class="connector" x1="800" y1="555.0" x2="820" y2="555.0" /><line class="connector" x1="1140" y1="555.0" x2="1160" y2="555.0" /><line class="connector" x1="40" y1="705.0" x2="60" y2="705.0" /><line class="connector" x1="380" y1="705.0" x2="400" y2="705.0" /><line class="connector" x1="420" y1="705.0" x2="440" y2="705.0" /><line class="connector" x1="760" y1="705.0" x2="780" y2="705.0" /><line class="connector" x1="800" y1="705.0" x2="820" y2="705.0" /><line class="connector" x1="1140" y1="705.0" x2="1160" y2="705.0" />
+    <a xlink:href="https://REPLACE_WITH_WEEK1_RECAP_URL" target="_blank">
+      <g>
+        <rect class="tile" x="60" y="200" width="320" height="110" />
+        <text class="tile-title" x="78" y="240">Week 1 Recap</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_PILOT_INSTRUCTIONS_URL" target="_blank">
+      <g>
+        <rect class="tile" x="440" y="200" width="320" height="110" />
+        <text class="tile-title" x="458" y="240">One-Week Pilot Instructions</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_PILOT_FORM_URL" target="_blank">
+      <g>
+        <rect class="tile" x="820" y="200" width="320" height="110" />
+        <text class="tile-title" x="838" y="240">Pilot Submission Form</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_PROMPT_KIT_URL" target="_blank">
+      <g>
+        <rect class="tile" x="60" y="350" width="320" height="110" />
+        <text class="tile-title" x="78" y="390">Prompt Kit</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_ROI_CALCULATOR_URL" target="_blank">
+      <g>
+        <rect class="tile" x="440" y="350" width="320" height="110" />
+        <text class="tile-title" x="458" y="390">ROI Calculator</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_LEVELS_OF_AI_URL" target="_blank">
+      <g>
+        <rect class="tile" x="820" y="350" width="320" height="110" />
+        <text class="tile-title" x="838" y="390">Levels of AI Interactive</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_MODEL_GUIDE_URL" target="_blank">
+      <g>
+        <rect class="tile" x="60" y="500" width="320" height="110" />
+        <text class="tile-title" x="78" y="540">Model Guide: GPT, Claude, Gemini</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_OMB_M24_10_GUIDE_URL" target="_blank">
+      <g>
+        <rect class="tile" x="440" y="500" width="320" height="110" />
+        <text class="tile-title" x="458" y="540">Ethics Guide: OMB M-24-10</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_DEEP_RESEARCH_URL" target="_blank">
+      <g>
+        <rect class="tile" x="820" y="500" width="320" height="110" />
+        <text class="tile-title" x="838" y="540">Deep Research + Web Search How-To</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_OFFICE_HOURS_URL" target="_blank">
+      <g>
+        <rect class="tile" x="60" y="650" width="320" height="110" />
+        <text class="tile-title" x="78" y="690">Office Hours Booking</text>
+      </g>
+    </a>
+    
+    <a xlink:href="mailto:REPLACE_WITH_HELP_EMAIL" target="_blank">
+      <g>
+        <rect class="tile" x="440" y="650" width="320" height="110" />
+        <text class="tile-title" x="458" y="690">Help Desk Email</text>
+      </g>
+    </a>
+    
+    <a xlink:href="https://REPLACE_WITH_OPTIMANOVA_SITE_URL" target="_blank">
+      <g>
+        <rect class="tile" x="820" y="650" width="320" height="110" />
+        <text class="tile-title" x="838" y="690">OptimaNova AI Site</text>
+      </g>
+    </a>
+    
+  <text class="footer" x="60" y="820">Tip: keep this SVG as your single-page hub. Host on GitHub Pages or your site. Update links in a text editor.</text>
+</svg>
